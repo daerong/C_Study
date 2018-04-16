@@ -108,30 +108,30 @@ CHAMPION *init_sample(CHAMPION **prev) {						// 기본 샘플 추가
 																// name, hp, mp, speed, range, position, link
 	CHAMPION champion_sample[SAMPLE_SIZE] = {
 		{ "가렌", 495, 100, 75, 50, TOP, NULL },
-		{ "요릭", 475, 140, 50, 50, TOP, NULL },
-		{ "초가스", 675, 70, 50, 60, JG, NULL },
-		{ "카시오페아", 335, 295, 55, 375, MID, NULL },
-		{ "칼리스타", 295, 120, 60, 375, AD, NULL },
-		{ "케인", 350, 110, 50, 50, JG, NULL },
-		{ "퀸", 275, 150, 100, 405, AD, NULL },
-		{ "트위스티드 페이트",310, 35, 55, 375, MID, NULL },
-		{ "하이머딩거", 385, 25, 60, 375, TOP, NULL },
-		{ "갈리오", 325, 75, 50, 50, MID, NULL },
-		{ "갱플랭크", 330, 100, 50, 50, TOP, NULL },
-		{ "그라가스", 335, 95, 50, 2, JG, NULL },
-		{ "그레이브즈", 340, 90, 100, 50, JG, NULL },
-		{ "나르", 345, 100, 85, 105, TOP, NULL },
-		{ "나미", 100, 100, 80, 65, SUP, NULL },
-		{ "나서스", 355, 100, 75, 70, TOP, NULL },
-		{ "노틸러스", 360, 70, 50, 75, TOP, NULL },
-		{ "녹턴", 365, 65, 50, 55, JG, NULL },
-		{ "누누", 675, 60, 50, 45, SUP, NULL },
-		{ "니달리", 375, 55, 70, 55, JG, NULL },
-		{ "다리우스", 380, 50, 80, 60, TOP, NULL },
-		{ "다이애나", 385, 45, 90, 65, MID, NULL },
-		{ "드레이븐", 390, 40, 100, 70, AD, NULL },
-		{ "라이즈", 400, 35, 105, 40, MID, NULL },
-		{ "라칸", 200, 30, 110, 30, SUP, NULL }
+	{ "요릭", 475, 140, 50, 50, TOP, NULL },
+	{ "초가스", 675, 70, 50, 60, JG, NULL },
+	{ "카시오페아", 335, 295, 55, 375, MID, NULL },
+	{ "칼리스타", 295, 120, 60, 375, AD, NULL },
+	{ "케인", 350, 110, 50, 50, JG, NULL },
+	{ "퀸", 275, 150, 100, 405, AD, NULL },
+	{ "트위스티드 페이트",310, 35, 55, 375, MID, NULL },
+	{ "하이머딩거", 385, 25, 60, 375, TOP, NULL },
+	{ "갈리오", 325, 75, 50, 50, MID, NULL },
+	{ "갱플랭크", 330, 100, 50, 50, TOP, NULL },
+	{ "그라가스", 335, 95, 50, 2, JG, NULL },
+	{ "그레이브즈", 340, 90, 100, 50, JG, NULL },
+	{ "나르", 345, 100, 85, 105, TOP, NULL },
+	{ "나미", 100, 100, 80, 65, SUP, NULL },
+	{ "나서스", 355, 100, 75, 70, TOP, NULL },
+	{ "노틸러스", 360, 70, 50, 75, TOP, NULL },
+	{ "녹턴", 365, 65, 50, 55, JG, NULL },
+	{ "누누", 675, 60, 50, 45, SUP, NULL },
+	{ "니달리", 375, 55, 70, 55, JG, NULL },
+	{ "다리우스", 380, 50, 80, 60, TOP, NULL },
+	{ "다이애나", 385, 45, 90, 65, MID, NULL },
+	{ "드레이븐", 390, 40, 100, 70, AD, NULL },
+	{ "라이즈", 400, 35, 105, 40, MID, NULL },
+	{ "라칸", 200, 30, 110, 30, SUP, NULL }
 	};
 
 	CHAMPION *init = NULL;
@@ -187,7 +187,7 @@ void Search(CHAMPION **next, CHAMPION **list) {					// 1. Search
 	gets_s(input, sizeof(char)*NAME_SIZE);
 	data = *list;												// 처음을 가져옴, data는 list. 즉, 초기값을 가짐
 
-	while (data != NULL) {                   
+	while (data != NULL) {
 		if (!(strcmp(data->name, input))) {
 			printf("name : %-20s, hp : %3d,\t mp : %3d,\t speed : %3d,\t range : %3d,\t position : %d\n",
 				data->name, data->hp, data->mp, data->speed, data->range, data->position);
@@ -210,6 +210,7 @@ void Search(CHAMPION **next, CHAMPION **list) {					// 1. Search
 }
 void Insert(CHAMPION **list, CHAMPION **prev) {					// 2. Insert
 
+	CHAMPION *search = *list, *back = NULL;
 	CHAMPION *data;												// 새로 추가할 데이터
 	data = (CHAMPION*)malloc(sizeof(CHAMPION));					// 동적메모리 할당
 	CHAMPION *check = *list;									// check는 처음값을 가짐
@@ -218,7 +219,7 @@ void Insert(CHAMPION **list, CHAMPION **prev) {					// 2. Insert
 																// name, hp, mp, speed, range, position, link
 	printf("name : ");
 	gets_s(data->name, sizeof(char)*NAME_SIZE);
-	while (check != NULL) {       
+	while (check != NULL) {
 		if (!(strcmp(data->name, check->name))) {
 			printf("중복된 이름이 있습니다.\n");
 			free(data);
@@ -265,19 +266,44 @@ void Insert(CHAMPION **list, CHAMPION **prev) {					// 2. Insert
 			}
 		} while (input < 1 && input > 5);
 
-		if (*list == NULL) {									// 연결리스트가 하나도 없다면,
-			*list = data;											// list가 가리키는 주소에 p를 대입, list는 처음 데이터
-			MaxHP = data->hp;									// 최대값 바꿔주기
-		}
-		else {													// list에 값이 있으면,
-			(*prev)->link = data;									// prev.link에 현주소 대입
-			if (data->hp > MaxHP) {								// 새로 입력한 값이 최대값이면,
-				MaxHP = data->hp;									// 바꿔준다
+		while (search != NULL) {
+			if (search->hp > data->hp) {
+				back = search;
+				search = search->link;
+			}
+			else {
+				break;
 			}
 		}
 
-		data->link = NULL;										// 마지막에 해당하므로 NULL
-		*prev = data;
+		if (*list == NULL) {									// 연결리스트가 하나도 없다면,
+			*list = data;											// list가 가리키는 주소에 p를 대입, list는 처음 데이터
+			MaxHP = data->hp;									// 최대값 바꿔주기
+			data->link = NULL;
+			*prev = data;
+		}
+		else {
+			back->link = data;									// prev.link에 현주소 대입
+			if (data->hp > MaxHP) {								// 새로 입력한 값이 최대값이면,
+				MaxHP = data->hp;									// 바꿔준다
+			}
+			if (search == NULL) {
+				data->link = NULL;
+				*prev = data;
+			}
+			else {
+				data->link = search;
+			}
+
+			/*
+			(*prev)->link = data;									// prev.link에 현주소 대입
+			if (data->hp > MaxHP) {								// 새로 입력한 값이 최대값이면,
+			MaxHP = data->hp;									// 바꿔준다
+			}
+			data->link = NULL;
+			*prev = data;
+			*/
+		}
 	}
 
 	system("cls");
@@ -301,7 +327,7 @@ void Delete(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {	// 3.Delete
 				free(data);
 				break;
 			}
-			else {	
+			else {
 				if (data->link == NULL) {							// 마지막이 삭제될 경우
 					*prev = back;
 					(*prev)->link = NULL;
@@ -339,7 +365,7 @@ void DeleteAll(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {			// 4. Dele
 	printf("Input number : ");
 	scanf("%d", &input);
 	data = *list;									// 처음을 가져옴
-           
+
 	while (data != NULL) {							// 비교 대상이 없다면 실행할 필요 없음               
 		if (data->position == input) {
 			if (data == *list) {					// 맨 앞이 삭제될 경우
@@ -349,7 +375,7 @@ void DeleteAll(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {			// 4. Dele
 			}
 			else {
 				if (data->link == NULL) {			// 끝일 때,
-					*prev = back;						
+					*prev = back;
 				}
 				else {								// 중간,
 					*next = data->link;					// 삭제할 값이 n이면 n+1의 값을 저장함
@@ -400,7 +426,7 @@ void FindMaxHP(CHAMPION **next, CHAMPION **list) {					// 6. FindMaxHp
 	CHAMPION *data;							// 순차검색 매개값
 	data = *list;							// 처음을 가져옴
 
-	while (data != NULL) {                     
+	while (data != NULL) {
 		if (data->hp == MaxHP) {
 			printf("name : %-20s, hp : %3d,\t mp : %3d,\t speed : %3d,\t range : %3d,\t position : %d\n",
 				data->name, data->hp, data->mp, data->speed, data->range, data->position);
@@ -459,7 +485,7 @@ void SortByHp(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {		// 7. SortBy
 				back = data;
 				equal_element(&TopHP, &data);					// 구조체 대입 TopHP = data, memcpy() 사용하니 에러발생.
 			}
-			if (data->hp > TopHP->hp){							// 큰게 중복일 경우 앞의 녀석을 사용한다.
+			if (data->hp > TopHP->hp) {							// 큰게 중복일 경우 앞의 녀석을 사용한다.
 				equal_element(&TopHP, &data);
 				target = data;
 				front = back;
@@ -467,7 +493,7 @@ void SortByHp(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {		// 7. SortBy
 			back = data;
 			data = data->link;
 		}
-		
+
 		(*prev)->link = TopHP;
 		*prev = TopHP;
 		(*prev)->link = NULL;
@@ -485,4 +511,3 @@ void SortByHp(CHAMPION **next, CHAMPION **list, CHAMPION **prev) {		// 7. SortBy
 	system("cls");
 	next = NULL;
 }
-
