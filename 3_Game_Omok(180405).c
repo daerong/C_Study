@@ -26,7 +26,7 @@ typedef struct LINEINFO {
 
 typedef struct LINEARINFO {
 	int number;
-	int color; 
+	int color;
 } LINEARINFO;
 
 void gotoxy(int x, int y)
@@ -193,7 +193,7 @@ void find_checkmate(TARGET locate[][WIDTH], GAME *pResult) {
 				if (i >= 2 && i <= HEIGHT - 3 && j >= 2 && j <= WIDTH - 3) {
 					if (locate[i - 1][j - 1] == locate[i][j] && locate[i][j] == locate[i + 1][j + 1]) {            // ¢Ù¹æÇâ
 						if (locate[i - 2][j - 2] == locate[i][j] && locate[i][j] == locate[i + 2][j + 2]) {
-							*pResult = locate[i][j];			
+							*pResult = locate[i][j];
 						}
 						else {
 							continue;
@@ -320,7 +320,7 @@ void linear_empty(LINEARINFO target[], int limit) {
 	}
 }
 
-void row_linear(TARGET locate[][WIDTH], LINEARINFO r[], int limit){
+void row_linear(TARGET locate[][WIDTH], LINEARINFO r[], int limit) {
 	for (int i = 0; i < limit; i++) {
 		int sum = 0;
 		for (int j = 0; j < WIDTH; j++) {
